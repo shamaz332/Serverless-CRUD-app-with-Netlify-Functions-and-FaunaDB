@@ -2,6 +2,8 @@ var faunadb = require('faunadb'),
   q = faunadb.query;
 
 // Docs on event and context https://www.netlify.com/docs/functions/#the-handler-method
+
+
 exports.handler = async (event, context) => {
 
   if (event.httpMethod !== "POST") {
