@@ -5,7 +5,7 @@ const dotenv = require('dotenv')
 require('dotenv').config();
 const handler = async event => {
   try {
-    const client = new faunadb.Client({ secret: "fnAD6M-o9uACB4lYdz8SDfauG0rT2BnCDJSx0GjY" })
+    const client = new faunadb.Client({ secret: process.env.FAUNADB_SECRET})
 
     var result = await client.query(
       q.Map(

@@ -92,7 +92,7 @@ const todoUpdateWrap = (
     <div>
       <Formik
         onSubmit={(value, actions) => {
-          fetch("/.netlify/functions/update", {
+          fetch("/.netlify/functions/updateTodo", {
             method: "put",
             body: JSON.stringify({
               detail: value.message,

@@ -7,7 +7,7 @@ const handler = async (event) => {
       return { statusCode: 405, body: "Method Not Allowed" };
     }
     const client = new faunadb.Client({
-      secret:"fnAD6M-o9uACB4lYdz8SDfauG0rT2BnCDJSx0GjY"
+      secret:process.env.FAUNADB_SECRET
     });
     const messageBody = JSON.parse(event.body);
     const result = await client.query(
