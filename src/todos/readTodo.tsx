@@ -89,7 +89,7 @@ export const ReadTodo = () => {
     setTodo(updateData)
   }
 const todoUpdateWrap = (
-    <div style={modalStyle} className={classes.paper}>
+    <div>
       <Formik
         onSubmit={(value, actions) => {
           fetch("/.netlify/functions/update", {
@@ -106,7 +106,7 @@ const todoUpdateWrap = (
             },
           })
           setFetchData(false)
-          handleCloseUpdated()
+         
         }}
         initialValues={{
           message: todo !== undefined ? todo.data.message : "",
@@ -125,7 +125,7 @@ const todoUpdateWrap = (
             />
             <div className="btn-form">
               <button type="submit">update</button>
-              <button type="button" onClick={handleCloseUpdated}>
+              <button type="button" onClick={handleClose}>
                 close
               </button>
             </div>
@@ -145,7 +145,7 @@ const todoUpdateWrap = (
                         <div key={i}>
                             <p>{mesg.data.detail}</p>
                             <button onClick={() => {
-                                deleteMessage(mes)
+                                deleteMessage(mesg)
                             }}> Delete</button>
                             <button onClick={() => {
                                 handleOpen()
