@@ -8,7 +8,7 @@ import { TextField } from '@material-ui/core';
 
 
 
-const useStyles = makeStyles((theme: Theme) =>
+const useStyles = makeStyles((theme) =>
     createStyles({
         modal: {
             display: 'flex',
@@ -24,20 +24,29 @@ const useStyles = makeStyles((theme: Theme) =>
     }),
 );
 
+// types
+
 // Data showing  
+
 
 export const ReadTodo = () => {
     const classes = useStyles();
     const [open, setOpen] = React.useState(false);
-    const [todoToUpdate, setTodoToUpdate] = useState()
+    const [data, setData] = useState<null | Data[]>()
+    const [fetchData, setFetchData] = useState(false)
+    const [todo, setTodo] = useState(undefined)
+    const [update, setUpdate] = useState(false)
+    
 
     interface Data {
-        ref: object
-        ts: number
-        data: {
-          message: string
-        }
+      ref: object
+      ts: number
+      data: {
+        message: string
       }
+    }
+
+
     const handleOpen = () => {
         setOpen(true);
     };
@@ -45,8 +54,7 @@ export const ReadTodo = () => {
     const handleClose = () => {
         setOpen(false);
     };
-    const [dataa, setData] = useState([])
-
+ 
 
     useEffect(() => {
         (async () => {
@@ -58,7 +66,7 @@ export const ReadTodo = () => {
                     setData(data)
                 })
         })()
-    }, [])
+    }, [fetchData])
 
 // Deleting toto 
 
@@ -68,28 +76,40 @@ export const ReadTodo = () => {
             method: "post",
             body: JSON.stringify({ id: message.ref["@ref"].id }),
         })
+        
+        setFetchData(true)
 
     }
 
-// Update Todo
-const updateTodoId = (id: string) => {
-    var updateData = dataa.find(mes => mes.ref["@ref"].id === id)
-    setTodoToUpdate(updateData)
+
+// updating data
+
+  const updateTodo = (id: string) => {
+    var updateData = data.find(mesg => mesg.ref["@ref"].id === id)
+    setTodo(updateData)
   }
-const todoUpdate = (
-    <div>
+const todoUpdateWrap = (
+    <div style={modalStyle} className={classes.paper}>
       <Formik
         onSubmit={(value, actions) => {
-          fetch("/.netlify/functions/updateTodo", {
+          fetch("/.netlify/functions/update", {
             method: "put",
             body: JSON.stringify({
-              message: value.message,
-              id: todoToUpdate.ref["@ref"].id,
+              detail: value.message,
+              id: todo.ref["@ref"].id,
             }),
           })
+          setFetchData(true)
+          actions.resetForm({
+            values: {
+              message: "",
+            },
+          })
+          setFetchData(false)
+          handleCloseUpdated()
         }}
         initialValues={{
-          message: todoToUpdate !== undefined ? todoToUpdate.data.message : "",
+          message: todo !== undefined ? todo.data.message : "",
         }}
       >
         {formik => (
@@ -105,7 +125,7 @@ const todoUpdate = (
             />
             <div className="btn-form">
               <button type="submit">update</button>
-              <button type="button" onClick={handleClose}>
+              <button type="button" onClick={handleCloseUpdated}>
                 close
               </button>
             </div>
@@ -114,20 +134,22 @@ const todoUpdate = (
       </Formik>
     </div>
   )
+
     return (
         <div>
 
-            {dataa === null || dataa === undefined ? <div>leading</div> :
+            {data === null || data === undefined ? <div>leading</div> :
                 <div>
                     <hr/>
-                    {dataa.map((mes, i) => (
+                    {data.map((mesg, i) => (
                         <div key={i}>
-                            <p>{mes.data.detail}</p>
+                            <p>{mesg.data.detail}</p>
                             <button onClick={() => {
                                 deleteMessage(mes)
                             }}> Delete</button>
                             <button onClick={() => {
                                 handleOpen()
+                              updateTodo(mesg.ref["@ref"].id)
                             }}> Update</button>
                                 <hr/>
                         </div>
@@ -149,7 +171,7 @@ const todoUpdate = (
             >
                 <Fade in={open}>
                     <div className={classes.paper}>
-                      {todoUpdate}
+                  {todoUpdateWrap}
                     </div>
                 </Fade>
             </Modal>
