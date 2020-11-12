@@ -1,23 +1,25 @@
-const faunadb = require("faunadb")
-q = faunadb.query
-const handler = async event => {
+const faunadb = require("faunadb");
+q = faunadb.query;
+const handler = async (event) => {
   try {
     if (event.httpMethod !== "POST") {
-      return { statusCode: 405, body: "Method Not Allowed" }
+      return { statusCode: 405, body: "Method Not Allowed" };
     }
-    const client = new faunadb.Client({ secret: 'fnAD6M-o9uACB4lYdz8SDfauG0rT2BnCDJSx0GjY'})
-    const Item = JSON.parse(event.body)
+    const client = new faunadb.Client({
+      secret:process.env.ADMIN_SECRET ,
+    });
+    const messageBody = JSON.parse(event.body);
     const result = await client.query(
-      q.Delete(q.Ref(q.Collection("products"), Item.id))
-    )
+      q.Delete(q.Ref(q.Collection("products"), messageBody.id))
+    );
 
     return {
       statusCode: 200,
-      body: JSON.stringify({ message: `Item Deleted` }),
-    }
+      body: JSON.stringify({ message: `delted` }),
+    };
   } catch (error) {
-    return { statusCode: 500, body: error.toString() }
+    return { statusCode: 500, body: error.toString() };
   }
-}
+};
 
-module.exports = { handler }
+module.exports = { handler };

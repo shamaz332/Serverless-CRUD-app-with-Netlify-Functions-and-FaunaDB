@@ -4,7 +4,7 @@ q = faunadb.query
 
 const handler = async event => {
   try {
-    const client = new faunadb.Client({ secret: 'fnAD6M-o9uACB4lYdz8SDfauG0rT2BnCDJSx0GjY'})
+    const client = new faunadb.Client({ secret: process.env.ADMIN_SECRET })
 
     var result = await client.query(
       q.Map(

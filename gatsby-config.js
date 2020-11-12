@@ -1,3 +1,4 @@
 module.exports = {
-  plugins: ["gatsby-plugin-typescript"],
-};
+  /* Your site config here */
+  plugins: [`gatsby-plugin-material-ui`],
+}
