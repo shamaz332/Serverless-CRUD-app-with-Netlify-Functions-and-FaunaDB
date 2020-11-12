@@ -1,60 +1,66 @@
 import React from 'react';
 import { Formik } from 'formik';
 
+
+
 export default function CreateTodo() {
+
+    
+
     return (
-    
-    <div>
-    
-        <Formik
-            initialValues={{ message: '' }}
-            validate={values => {
-                const errors = {};
-                if (!values.message) {
-                    errors.message = 'Required';
-                }
-                return errors;
-            }}
-            onSubmit={(values, { setSubmitting }) => {
-                console.log(values);
-                fetch(`/.netlify/functions/createTodo`, {
-                    method: 'post',
-                    body: JSON.stringify(values)
-                })
-                    .then(response => response.json())
-                    .then(data => {
-                        console.log(data);
 
-                    });
-            }}
-        >
-            {({
-                values,
-                errors,
-                touched,
-                handleChange,
-                handleBlur,
-                handleSubmit,
-                isSubmitting,
-                /* and other goodies */
-            }) => (
-                    <form onSubmit={handleSubmit}>
-                        <input
-                            type="text"
-                            name="message"
-                            onChange={handleChange}
-                            onBlur={handleBlur}
-                            value={values.message}
-                        />
-                        {errors.message && touched.message && errors.message}
-                        <button type="submit" disabled={isSubmitting}>
-                            Add Message
+        <div>
+
+            <Formik
+                initialValues={{ message: '' }}
+                validate={values => {
+                    const errors = {};
+                    if (!values.message) {
+                        errors.message = 'Required';
+                    }
+                    return errors;
+                }}
+                onSubmit={(values, { setSubmitting }) => {
+                    console.log(values);
+                    fetch(`/.netlify/functions/createTodo`, {
+                        method: 'post',
+                        body: JSON.stringify(values)
+                    })
+                        .then(response => response.json())
+                        .then(data => {
+                            console.log(data);
+
+                        });
+                }}
+            >
+                {({
+                    values,
+                    errors,
+                    touched,
+                    handleChange,
+                    handleBlur,
+                    handleSubmit,
+                    isSubmitting,
+                    /* and other goodies */
+                }) => (
+                        <form onSubmit={handleSubmit}>
+                            <input
+                                type="text"
+                                name="message"
+                                onChange={handleChange}
+                                onBlur={handleBlur}
+                                value={values.message}
+                            />
+                            {errors.message && touched.message && errors.message}
+                            <button type="submit" disabled={isSubmitting}>
+                                Add Message
                         </button>
-                    </form>
-                )}
-        </Formik>
+                        </form>
+                    )}
+            </Formik>
 
 
 
-    </div>
-    )}
+        </div>
+    )
+}
