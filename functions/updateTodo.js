@@ -4,10 +4,10 @@ require("dotenv").config()
 
 const handler = async event => {
   try {
-    const client = new faunadb.Client({ secret:process.env.FAUNADB_SECRET })
+    const client = new faunadb.Client({ secret:process.env.ADMIN_SECRET })
     const messageBody = JSON.parse(event.body);
     var result = await client.query(
-      q.Update(q.Ref(q.Collection("messages"), messageBody.id), {
+      q.Update(q.Ref(q.Collection("task"), messageBody.id), {
         data: { detail: messageBody.message },
       })
     )

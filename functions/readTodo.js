@@ -5,11 +5,11 @@ const dotenv = require('dotenv')
 require('dotenv').config();
 const handler = async event => {
   try {
-    const client = new faunadb.Client({ secret: process.env.FAUNADB_SECRET})
+    const client = new faunadb.Client({ secret: process.env.ADMIN_SECRET})
 
     var result = await client.query(
       q.Map(
-        q.Paginate(q.Documents(q.Collection("products"))),
+        q.Paginate(q.Documents(q.Collection("tasks"))),
         q.Lambda(x => q.Get(x))
       )
     )

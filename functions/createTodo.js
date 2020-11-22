@@ -10,10 +10,10 @@ exports.handler = async (event, context) => {
 
   try {
     const messageBody = JSON.parse(event.body);
-    var adminClient = new faunadb.Client({ secret: process.env.FAUNADB_SECRET });
+    var adminClient = new faunadb.Client({ secret: process.env.ADMIN_SECRET });
 
     const result = await adminClient.query(
-      q.Create(q.Collection("products"), {
+      q.Create(q.Collection("tasks"), {
         data: { detail: messageBody.message },
       })
     );

@@ -1,5 +1,5 @@
 var plugins = [{
-      plugin: require('/home/shamaz/web root/2020 bootcamp/projects/12b/node_modules/gatsby-plugin-material-ui/gatsby-ssr'),
+      plugin: require('/home/shamaz/web root/2020 bootcamp/projects/Serverless-CRUD-app-with-Netlify-Functions-and-FaunaDB/node_modules/gatsby-plugin-material-ui/gatsby-ssr'),
       options: {"plugins":[]},
     }]
 // During bootstrap, we write requires at top of this file which looks like:

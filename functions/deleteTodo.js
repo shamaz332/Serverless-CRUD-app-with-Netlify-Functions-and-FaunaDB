@@ -7,11 +7,11 @@ const handler = async (event) => {
       return { statusCode: 405, body: "Method Not Allowed" };
     }
     const client = new faunadb.Client({
-      secret:process.env.FAUNADB_SECRET
+      secret:process.env.ADMIN_SECRET
     });
     const messageBody = JSON.parse(event.body);
     const result = await client.query(
-      q.Delete(q.Ref(q.Collection("products"), messageBody.id))
+      q.Delete(q.Ref(q.Collection("tasks"), messageBody.id))
     );
 
     return {
